@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { ApplymentsContainer, ApplyButton, ButtonContainer } from './styles'
 import HeaderMenu from '../../components/HeaderMenu'
 import DeleteModal from '../../components/DeleteModal'
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 const Applyments = () => {
   const navigate = useNavigate()
@@ -13,22 +13,22 @@ const Applyments = () => {
   const [openModalDeleteValidation, setOpenModalDeleteValidation] = useState(false)
   const [applymentID, setApplymentID] = useState()
 
-  const fetchData = async () => {
+  const getApplyments = async () => {
     try {
-      const { data } = await api.get(`/applyments`);
+      const { data } = await api.get(`/applyments`)
       setProcesses(data)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   useEffect(() => {
-    fetchData()
+    getApplyments()
   }, [])
 
   const handleDeleteAppyment = async(id) => {
     await api?.delete(`/applyments/${id}`).then(response => {
-      fetchData()
+      getApplyments()
       setOpenModalDeleteValidation(false)
     })
   } 
@@ -55,24 +55,29 @@ const Applyments = () => {
       dataIndex: 'id',
       key: 'id',
       width: 100,
-      render: (text) => <DeleteOutlined onClick={() => { 
-        setOpenModalDeleteValidation(true)
-        setApplymentID(text)
-      }} />
+      render: (text) => (
+        <div style={{ display: 'flex', justifyContent: 'space-around', marginRight: 20 }}>
+          <EditOutlined onClick={() => navigate(`/applyment/${text}`)} />
+          <DeleteOutlined onClick={() => { 
+            setOpenModalDeleteValidation(true)
+            setApplymentID(text)
+          }} /> 
+        </div>
+      )
     },
   ]
 
   return (
     <>
-    <HeaderMenu />
-    <ApplymentsContainer>
-      <ButtonContainer>
-        <ApplyButton type="primary" size={'large'} onClick={() => navigate('/applyments/new')}>
-          <span>
-            +New Apply
-          </span>
-        </ApplyButton>
-      </ButtonContainer>
+      <HeaderMenu />
+      <ApplymentsContainer>
+        <ButtonContainer>
+          <ApplyButton type="primary" size={'large'} onClick={() => navigate('/applyments/new')}>
+            <span>
+              +New Apply
+            </span>
+          </ApplyButton>
+        </ButtonContainer>
         <ConfigProvider
           theme={{
             token: {

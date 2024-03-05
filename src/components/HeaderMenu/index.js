@@ -8,8 +8,8 @@ const HeaderMenu = () => {
   return (
     <HeaderContainer>
       <HeaderContent>
-        <Button type='link' onClick={() => navigate('/')}><h3>Applyments jobs</h3></Button>
-        <Button type='link' onClick={() => navigate('/applyments')}><h3>Selective Process</h3></Button>
+        <Button type='link' onClick={() => navigate('/')}><h3>Selective Process</h3></Button>
+        <Button type='link' onClick={() => navigate('/applyments')}><h3>Applyments jobs</h3></Button>
       </HeaderContent>
     </HeaderContainer>
   )
